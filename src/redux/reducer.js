@@ -3,6 +3,7 @@ import {
   GET_ALL_PRODUCTS,
   ADD_TO_CART,
   GET_ALL_USER_ORDERS,
+  GET_ONE_USER_ORDER,
   GET_ORDER_LINEITEMS
 } from './constants'
 
@@ -27,9 +28,9 @@ export const productReducer = (state = [], action) => {
 export const cartReducer = (state = [], action) => {
   switch (action.type) {
     case ADD_TO_CART:
-      return [...state, action.lineitem]
+      return action.cart
     case GET_ORDER_LINEITEMS:
-      return action.lineitems
+      return action.cart
     default:
       return state
   }
@@ -39,6 +40,8 @@ export const userOrdersReducer = (state = [], action) => {
   switch (action.type) {
     case GET_ALL_USER_ORDERS:
       return action.orders
+    case GET_ONE_USER_ORDER:
+      return action.order
     default:
       return state
   }

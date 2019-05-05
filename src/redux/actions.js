@@ -4,6 +4,7 @@ import {
   GET_ALL_PRODUCTS,
   ADD_TO_CART,
   GET_ALL_USER_ORDERS,
+  GET_ONE_USER_ORDER,
   GET_ORDER_LINEITEMS
 } from './constants'
 
@@ -18,14 +19,19 @@ const getAllProducts = products => ({
   products
 })
 
-const addToCart = lineitem => ({
+const addToCart = cart => ({
   type: ADD_TO_CART,
-  lineitem
+  cart
 })
 
 const getAllUserOrders = orders => ({
   type: GET_ALL_USER_ORDERS,
   orders
+})
+
+const getOneUserOrder = order => ({
+  type: GET_ONE_USER_ORDER,
+  order
 })
 
 const getOrderLineitems = lineitems => ({
@@ -50,20 +56,30 @@ export const getAllProductsThunk = () => {
   }
 }
 
-export const addToCartThunk = (userId, lineitem) => {
-  const { orderId } = lineitem
+export const addToCartThunk = (product) => {
   return dispatch => {
     return axios
-      .post(`/api/users/${userId}/orders/${orderId}/lineitem`, lineitem)
+      .post(`api/orders`, product)
       .then(({ data }) => dispatch(addToCart(data)))
+      .catch(error => dispatch({ type: 'POST_FAILURE', error: error.message }))
   }
 }
+
+///api/users/${userId}/orders/${orderId}/lineitem
 
 export const getAllUserOrdersThunk = userId => {
   return dispatch => {
     return axios
       .get(`/api/users/${userId}/orders`)
       .then(({ data }) => dispatch(getAllUserOrders(data)))
+  }
+}
+
+export const getOneUserOrderThunk = (userId, orderId) => {
+  return dispatch => {
+    return axios
+      .get(`/api/users/${userId}/orders/${orderId}`)
+      .then(({ data }) => dispatch(getOneUserOrder(data)))
   }
 }
 

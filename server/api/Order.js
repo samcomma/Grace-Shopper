@@ -9,6 +9,12 @@ router.get('/', (req, res, next) => {
     .catch(next)
 })
 
+router.get('/:id', (req, res, next) => {
+  Order.findByPk(req.params.id)
+    .then(order => res.json(order))
+    .catch(next)
+})
+
 router.post('/', (req, res, next) => {
   Order.create(req.body)
     .then(order => res.json(order))

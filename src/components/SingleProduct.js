@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { addToCartThunk } from '../redux/actions'
+import AddToCartButton from './AddToCartButton'
 
 const SingleProduct = ({ product }) => {
   const { id, description, name, price, image } = product
@@ -14,7 +15,7 @@ const SingleProduct = ({ product }) => {
         <li>{price}</li>
         <li>{description}</li>
       </ul>
-      <button type="button">Add to cart</button>
+      <AddToCartButton product={ product }/>
     </div>
   )
 }
